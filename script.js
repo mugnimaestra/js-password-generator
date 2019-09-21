@@ -1,16 +1,20 @@
 const ulEl = document.getElementById('list-password'); // get DOM
+const msg = document.getElementById("message-box");
+const lengthOfList = document.getElementById("length-of-list");
 
 const generatePassword = num => {
+   while (ulEl.firstChild) {
+     ulEl.removeChild(ulEl.firstChild);
+   }
    let numOfList;
    if (typeof num !== "number" || num < 1) {
       numOfList = 5;
-      const msg = document.getElementById('message-box');
       msg.innerHTML = "Please put only positive number (set default to 5)";
    } else {
       numOfList = Math.floor(num);
+      msg.innerHTML = ""
    }
 
-   const lengthOfList = document.getElementById("length-of-list");
    lengthOfList.innerHTML = numOfList.toString();
 
    for (let i = 0; i < numOfList; i++) {
@@ -69,9 +73,21 @@ const generatePassword = num => {
       }
 
       const newList = document.createElement("li");
-      newList.innerHTML = generatedPassword;
+      newList.textContent = generatedPassword;
       ulEl.appendChild(newList)
    }
 }
+
+const changeValue = () => {
+  const inputLength = document.getElementById("input-length");
+  if (inputLength.value !== '') {
+     if (parseInt(inputLength.value) > 50) {
+        generatePassword(50)
+        msg.innerHTML = "Max list is 50!"
+     } else {
+        generatePassword(parseInt(inputLength.value));
+     }
+  }
+};
 
 generatePassword((Math.random() * 5) + 1);
